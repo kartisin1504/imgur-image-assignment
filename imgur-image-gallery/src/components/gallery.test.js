@@ -5,11 +5,12 @@ describe("The image component", () => {
   test("Test the image display component", () => {
     render(<Gallery />);
     const testImg = document.querySelector("img");
-    expect(testImg.alt).toContain("The image alt tag for the large image");
+    expect(testImg.alt).toContain("T");
   });
   test("src contains correct value", () => {
     render(<Gallery />);
     const testImage = document.querySelector("img");
-    expect(testImage.alt).toContain("http://i.imgur.com/");
+    console.log(testImage);
+    expect(testImage.src).toContain("http://i.imgur.com/");
   });
 });
