@@ -1,6 +1,13 @@
-# Getting Started with Create React App
+# Getting Started with Create React App of imgur application
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+please use below command after git clone this project
+### `npm install
+Project overview
+This project contain responsive web application which dispaly thumnail of images and preview if you click on them and slide through all available images.
+I have used static response of images from imgur as i am unable to fetch the data as i am unable to register with imgur application to get actual response.
+I have given psuedo code for fetch api if i get client id and credential for authenticaion.
 
 ## Available Scripts
 
