@@ -1,8 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import App from "./App";
-
-test("renders learn react link", () => {
-  render(<App />);
-  const linkElement = screen.getByText(/Responsive Photo Gallery in React JS/i);
-  expect(linkElement).toBeInTheDocument();
+describe("Load image component", () => {
+  test("show responsive images and load pages", () => {
+    render(<App />);
+    const linkElement = screen.getByText(
+      /Responsive Photo Gallery in React JS/i
+    );
+    expect(linkElement).toBeInTheDocument();
+  });
+  
 });

@@ -8,9 +8,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 import './gallery.css'
-import ImageFilter from './filter'
+import ImageFilter from '../filter/filter'
 
-const Gallery = (props) => {
+
+const Gallery = ({galleryImages}) => {
 
   const [slideNumber, setSlideNumber] = useState(0)
   const [openModal, setOpenModal] = useState(false)
@@ -28,24 +29,21 @@ const Gallery = (props) => {
   // Previous Image
   const prevSlide = () => {
     slideNumber === 0 
-    ? setSlideNumber( props.galleryImages.length -1 ) 
+    ? setSlideNumber( galleryImages.length -1 ) 
     : setSlideNumber( slideNumber - 1 )
   }
 
   // Next Image  
   const nextSlide = () => {
-    slideNumber + 1 === props.galleryImages.length 
+    slideNumber + 1 === galleryImages.length 
     ? setSlideNumber(0) 
     : setSlideNumber(slideNumber + 1)
   }
-  const filterHandler=(val)=>{
-    props.filterhandlerVal(val)
-
-  }
+  
 
   return (
     <div>
-      <ImageFilter sectionVal={props.galleryImages} onFilterVal={filterHandler}/>
+      <ImageFilter />
 
       {openModal && 
         <div className='sliderWrap'>
@@ -53,20 +51,13 @@ const Gallery = (props) => {
           <FontAwesomeIcon icon={faCircleChevronLeft} className='btnPrev' onClick={prevSlide} />
           <FontAwesomeIcon icon={faCircleChevronRight} className='btnNext' onClick={nextSlide} />
           <div className='fullScreenImage'>
-            <img src={props.galleryImages[slideNumber].link} alt= {props.galleryImages[slideNumber].title} />
+            <img src={galleryImages[slideNumber].link} alt= {galleryImages[slideNumber].title} />
           </div>
         </div>
       }
-
-      {/* <br />
-      Current slide number:  {slideNumber}
-      <br />
-      Total Slides: {galleryImages.length}
-      <br /><br /> */}
-
       <div className='galleryWrap'>
         {
-          props.galleryImages && props.galleryImages.map((slide, index) => {
+          galleryImages && galleryImages.map((slide, index) => {
             return(
               <div 
                 className='single' 
@@ -80,7 +71,7 @@ const Gallery = (props) => {
           })
         }
       </div>
-      {props.galleryImages.length==0 && <p>There are no images available for this selection </p>}
+      {galleryImages.length==0 && <p>There are no images available for this selection </p>}
 
     </div>
   )

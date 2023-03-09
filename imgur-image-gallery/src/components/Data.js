@@ -1,3 +1,8 @@
+export const GETURL = "https://api.imgur.com/3/gallery";
+export const CLIENTID = "4fa8a2c1a468409";
+export const SECTION = "top";
+export const SORT = "top";
+
 export const galleryImages = [
   {
     id: "QJa0R6q",

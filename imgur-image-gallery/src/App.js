@@ -1,26 +1,23 @@
 import "./App.css";
-import Gallery from "./components/gallery";
-import { galleryImages } from "./components/Data";
-import { useEffect, useState } from "react";
+
+import {
+  galleryImages,
+  CLIENTID,
+  GETURL,
+  SECTION,
+  SORT,
+} from "./components/Data";
+import { useContext, useEffect, useState } from "react";
+import FilterContext from "./store/filter-context";
+import Gallery from "./components/gallery/gallery";
 
 function App() {
-  const section = "top";
-  const sort = "top";
-  //const window = ""; //intial state
   const [imgList, setImgList] = useState(galleryImages);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const onupdateListHandler = (filterVal) => {
-    //console.log(filterVal);
-    const filtered_array = galleryImages.filter(
-      // Callback function
-      (item) => {
-        // Filter Condition
-        return item.section === filterVal;
-      }
-    );
-    setImgList(filtered_array);
-  };
+  const filterCtx = useContext(FilterContext);
+  const [selectedVal, setSelectVal] = useState(filterCtx);
+
   // Below code can be used during fetch of images from imgur
   useEffect(() => {
     const loadImg = async () => {
@@ -28,25 +25,16 @@ function App() {
         setIsLoading(true);
         setError(null);
         // Client ID
-        const clientId = "4fa8a2c1a468409",
-          auth = "Client-ID " + clientId;
-
-        // Creating an object of formData
-        //const selectionData = new FormData();
-
-        // Adding our image to formData
-        //formDselectionDataata.append("section", sect);
 
         // Making the post request
         const response = await fetch(
-          `https://api.imgur.com/3/gallery/${section}/${sort}/1?showViral=true&mature=false&album_previews=true`,
+          `${GETURL}/${SECTION}/${SORT}/1?showViral=true&mature=false&album_previews=true`,
           {
             // API Endpoint
-            method: "GET", // HTTP Method
-            // body: formData, // Data to be sent
+            method: "GET",
+
             headers: {
-              // Setting header
-              Authorization: auth,
+              Authorization: "Client-ID " + CLIENTID,
               Accept: "application/json",
             },
           }
@@ -55,27 +43,33 @@ function App() {
           throw new Error("Something went wrong");
         }
         const data = await response.json();
-        console.log(data);
         setImgList(data);
         setIsLoading(false);
       } catch (error) {
         setError(error.message);
         setIsLoading(false);
       }
+      if (selectedVal !== undefined) {
+        const filtered_array = galleryImages.filter((item) => {
+          // Filter Condition
+          return item.section === selectedVal;
+        });
+        setImgList(filtered_array);
+      }
     };
     loadImg();
-  }, []);
+  }, [selectedVal]);
 
   return (
     <div className="App">
-      <br />
-      <div>
+      <div className="Title-section">
         <strong>Responsive Photo Gallery in React JS</strong>
       </div>
-      <br />
-      <br />
+
       {isLoading && <p>Loading.....</p>}
-      <Gallery galleryImages={imgList} filterhandlerVal={onupdateListHandler} />
+      <FilterContext.Provider value={{ selectedVal, setSelectVal }}>
+        <Gallery galleryImages={imgList} />
+      </FilterContext.Provider>
     </div>
   );
 }
