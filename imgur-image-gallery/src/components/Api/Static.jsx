@@ -1,42 +1,38 @@
 
-import { useContext, useEffect, useState } from "react";
-import FilterContext from "../../store/filter-context";
+import {  useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
 import {  galleryImages, } from "../Data";
 import Gallery from "../gallery/gallery";
 
 
 const Static=()=>{
   const [imgList, setImgList] = useState(galleryImages);
-  const filterCtx = useContext(FilterContext);
-  const [selectedVal, setSelectVal] = useState(filterCtx);
-
-  // Below code can be used during fetch of images from imgur
+  const { userVal } = useSelector((state) => state.update);
+  
+  // Below code can be used during filter  of images from imgur
   useEffect(() => {
     
-      if (selectedVal !== undefined) {
+      if (userVal !== '') {
         const filtered_array = galleryImages.filter((item) => {
           // Filter Condition
-          return item.section === selectedVal;
+          return item.section === userVal;
         });
         setImgList(filtered_array);
       }
     
-      }, [selectedVal]);
+      }, [userVal]);
 
   return (
     <div className="App">
       <div className="Title-section">
         <strong>Responsive Photo Gallery in React JS</strong>
-      </div>
-
+      </div>     
+      <Gallery galleryImages={imgList} />
       
-      <FilterContext.Provider value={{ selectedVal, setSelectVal }}>
-        <Gallery galleryImages={imgList} />
-      </FilterContext.Provider>
     </div>
   );
 
 }
-
 
 export default Static

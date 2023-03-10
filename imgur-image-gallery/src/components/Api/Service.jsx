@@ -1,23 +1,22 @@
-import { useContext, useEffect, useState } from "react";
-import FilterContext from "../../store/filter-context";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
 import { CLIENTID, GETURL, SECTION, SORT } from "../Data";
 import Gallery from "../gallery/gallery";
 import Error from "../route/Error";
 
 
 const Service=()=>{
-     const [imgList, setImgList] = useState('');
+  const [imgList, setImgList] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const filterCtx = useContext(FilterContext);
-  const [selectedVal, setSelectVal] = useState(filterCtx);
+  const { userVal } = useSelector((state) => state.update);
+ 
 
   // Below code can be used during fetch of images from imgur
   useEffect(() => {
     const loadImg = async () => {
       try {
         setIsLoading(true);
-        // Client ID
-
         // Making the post request
         const response = await fetch(
           `${GETURL}/${SECTION}/${SORT}/1?showViral=true&mature=false&album_previews=true`,
@@ -45,7 +44,7 @@ const Service=()=>{
   
     };
     loadImg();
-  }, [selectedVal]);
+  }, [userVal]);
 
   return (
     <div className="App">
@@ -53,11 +52,9 @@ const Service=()=>{
         <strong>Responsive Photo Gallery in React JS</strong>
       </div>
 
-      {isLoading && <p>Loading.....</p>}
-      <FilterContext.Provider value={{ selectedVal, setSelectVal }}>
-        <Gallery galleryImages={imgList} />
-        
-      </FilterContext.Provider>
+  {isLoading && <p>Loading.....</p>}
+
+  <Gallery galleryImages={imgList} />
     </div>
   );
 

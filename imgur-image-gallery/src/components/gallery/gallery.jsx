@@ -71,7 +71,7 @@ const Gallery = ({galleryImages}) => {
           })
         }
       </div>
-      {galleryImages.length===0 && <p>There are no images available for this selection </p>}
+      {galleryImages!==undefined  && galleryImages.length===0 && <p>There are no images available for this selection </p>}
 
     </div>
   )
