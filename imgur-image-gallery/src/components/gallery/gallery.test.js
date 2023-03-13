@@ -39,7 +39,9 @@ describe("Test Image Gallery Component", () => {
     render(<Gallery data={imgList} />);
 
     //manupulate
-
+    screen.logTestingPlaygroundURL();
+    const imglist = screen.getByRole("img");
     //expectation
+    expect(imglist).toBeInTheDocument();
   });
 });

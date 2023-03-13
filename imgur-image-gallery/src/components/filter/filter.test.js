@@ -1,9 +1,24 @@
-import { render, screen } from "@testing-library/react";
+import { getAllByRole, render, screen } from "@testing-library/react";
 import ImageFilter from "./filter";
-describe("Testing filter for section", () => {
-  test("Test the filter component", () => {
+describe("Test Image filter Component", () => {
+  test("combobox is availabel on screen ", () => {
+    //render
     render(<ImageFilter />);
-    const text = screen.getByText("User Login Page");
-    expect(text).toBeInTheDocument();
+
+    //manupulate
+    const selectionbox = screen.getAllByRole("combobox");
+
+    //expectation
+    expect(selectionbox).toHaveLength(1);
+  });
+  test("combobox is having list of filters ", () => {
+    //render
+    render(<ImageFilter />);
+    screen.logTestingPlaygroundURL();
+    //manupulate
+    const listOfSelectionVal = screen.getAllByRole("option");
+
+    //expectation
+    expect(listOfSelectionVal).toBeInTheDocument;
   });
 });
